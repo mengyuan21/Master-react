@@ -8,7 +8,11 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      name:'Mia'
+      name: {
+        firstName:'Mia',
+        lastName: 'Li',
+      },
+      company: 'Thoughtworks',
     }
   }
 
@@ -18,10 +22,11 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            {this.state.name} is the best!!
+            Hi {this.state.name.firstName} {this.state.name.lastName}, I worked in {this.state.company}
           </p>
           <button onClick={() => {
-            this.setState({name: 'Mengyuan'})
+            this.setState({name: {firstName:'Mengyuan', lastName:'Lee'}});
+            console.log(this.state);
           } 
         }> Change name </button>
         </header>
