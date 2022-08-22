@@ -5,7 +5,6 @@ import './App.css';
 
 
 class App extends Component {
-
   constructor() {
     super();
     this.state = {
@@ -21,7 +20,10 @@ class App extends Component {
           <p>
             {this.state.name} is the best!!
           </p>
-          <button> Change name </button>
+          <button onClick={() => {
+            this.setState({name: 'Mengyuan'})
+          } 
+        }> Change name </button>
         </header>
       </div>
     );
