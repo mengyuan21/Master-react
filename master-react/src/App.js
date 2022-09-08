@@ -1,32 +1,38 @@
 import {Component} from 'react';
-
-import logo from './logo.svg';
 import './App.css';
 
 
 class App extends Component {
   constructor() {
     super();
+
+    // defined what intial state looks like
     this.state = {
-      monsters:[
-       {
-        name: 'Linda'
-      },
-      {
-        name:'Eleven'
-      },
-      {
-        name:'Bob'
-      }
-    ], 
-    }
+      monsters:[], 
+    };
   }
 
+  //this function will run whenever this componet mount, put API requests here
+  componentDidMount() {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then(users => this.setState(
+        () => {return {monsters: users}}
+      ))
+  }
+
+  //determined what to show
   render() {
     return (
       <div className="App">
         {
-          this.state.monsters.map((monster) => {return<h1>{monster.name}</h1>})
+          this.state.monsters.map((monster) => {
+            return (
+              <div key={monster.id}>
+                <h1>{monster.name}</h1>
+              </div>
+            ) 
+          })
         } 
       </div>
     );
