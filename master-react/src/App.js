@@ -12,6 +12,8 @@ class App extends Component {
     };
   }
 
+
+
   //this function will run whenever this componet mount, put API requests here
   componentDidMount() {
     fetch('https://jsonplaceholder.typicode.com/users')
@@ -25,6 +27,20 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <input 
+          className='searchBox' 
+          type='search' 
+          placeholder='search monsters here' 
+          onChange={(event) => {
+            const searchString = event.target.value.toLowerCase();
+            const filterMonsters = this.state.monsters.filter((monster) => {
+              return monster.name.includes(searchString)
+            })
+            this.setState(() => {
+              return {monsters:filterMonsters}
+            })
+          }} 
+        />
         {
           this.state.monsters.map((monster) => {
             return (
