@@ -9,10 +9,9 @@ class App extends Component {
     // defined what intial state looks like
     this.state = {
       monsters:[], 
+      searchField: '',
     };
   }
-
-
 
   //this function will run whenever this componet mount, put API requests here
   componentDidMount() {
@@ -25,6 +24,11 @@ class App extends Component {
 
   //determined what to show
   render() {
+
+    const filterMonsters = this.state.monsters.filter((monster) => {
+      return monster.name.toLowerCase().includes(this.state.searchField)
+    })
+
     return (
       <div className="App">
         <input 
@@ -32,17 +36,14 @@ class App extends Component {
           type='search' 
           placeholder='search monsters here' 
           onChange={(event) => {
-            const searchString = event.target.value.toLowerCase();
-            const filterMonsters = this.state.monsters.filter((monster) => {
-              return monster.name.includes(searchString)
-            })
+            const searchField = event.target.value.toLowerCase();
             this.setState(() => {
-              return {monsters:filterMonsters}
+              return {searchField}
             })
           }} 
         />
         {
-          this.state.monsters.map((monster) => {
+          filterMonsters.map((monster) => {
             return (
               <div key={monster.id}>
                 <h1>{monster.name}</h1>
