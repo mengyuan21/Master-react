@@ -37,7 +37,6 @@ class App extends Component {
     const {monsters,searchField} = this.state
     const {onSearchChange} = this
 
-
     const filterMonsters = monsters.filter((monster) => {
       return monster.name.toLowerCase().includes(searchField)
     })
