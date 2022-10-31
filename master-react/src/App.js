@@ -1,31 +1,44 @@
-import {Component} from 'react';
-
-import logo from './logo.svg';
+import {useEffect, useState} from 'react';
 import './App.css';
+import CardList from './components/card-list/card-list.component';
+import SearchBox from './components/search-box/search-box.component';
+import Title from './components/title/title.component';
 
 
-class App extends Component {
+const App = () => {
+  const [searchField, setSearchField] = useState('') // [value, setValueFunction]
+  const [monsters, setMonsters] = useState([])
+  const [filterMonsters, setFilterMonsters] = useState(monsters)
 
-  constructor() {
-    super();
-    this.state = {
-      name:'Mia'
-    }
+
+  const onSearchChange = (event) => {
+    const searchFieldString = event.target.value.toLocaleLowerCase();
+    setSearchField(searchFieldString)
   }
 
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            {this.state.name} is the best!!
-          </p>
-          <button> Change name </button>
-        </header>
-      </div>
-    );
-  }
+  //useEffect(): Call API
+  useEffect(() => {
+    console.log('useEffect() called')
+    fetch('https://jsonplaceholder.typicode.com/users')
+          .then(response => response.json())
+          .then(users => setMonsters(users))
+  },[])
+
+  useEffect(() => {
+    const newFilterMonsters = monsters.filter((monster) => {
+      return monster.name.toLocaleLowerCase().includes(searchField);
+    });
+    setFilterMonsters(newFilterMonsters);
+  }, [monsters, searchField])
+
+
+  return(
+    <div className="App">
+      <Title/>
+      <SearchBox onSearchChange={onSearchChange} placeholder='search monsters'/>
+      <CardList monsters={filterMonsters}/>
+  </div>
+  )
 }
 
 export default App;
